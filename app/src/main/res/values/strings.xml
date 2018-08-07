@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">list</string>
+    <string name="dialog_title">Add your exercise</string>
+    <string name="ok">Ok</string>
+    <string name="cancel">Cancel</string>
+    <string name="sets">Sets</string>
+    <string name="reps">Reps</string>
+    <string name="exercise_name">Exercise name</string>
+    <string name="cancel_button">Cancel Button</string>
+    <string name="rest_in_seconds">Rest in Seconds</string>
+</resources>
