@@ -1,11 +1,16 @@
 <resources>
-    <string name="app_name">list</string>
+    <string name="app_name">Gym List</string>
     <string name="dialog_title">Add your exercise</string>
-    <string name="ok">Ok</string>
+    <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
     <string name="sets">Sets</string>
     <string name="reps">Reps</string>
     <string name="exercise_name">Exercise name</string>
     <string name="cancel_button">Cancel Button</string>
     <string name="rest_in_seconds">Rest in Seconds</string>
+    <string name="dialog_invalid_choice">Please complete every field</string>
+    <string name="dialog_valid_choice">Exercise Added</string>
+    <string name="exercise_output_timer_activity">%1$s\t\tsets: %2$d\treps: %3$d</string>
+    <string name="sessio_icon">sessio icon</string>
+    <string name="action_settings">Settings</string>
 </resources>
