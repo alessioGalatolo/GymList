@@ -13,4 +13,5 @@
     <string name="exercise_output_timer_activity">%1$s\t\tsets: %2$d\treps: %3$d</string>
     <string name="sessio_icon">sessio icon</string>
     <string name="action_settings">Settings</string>
+    <string name="untitled_session">Untitled Session</string>
 </resources>

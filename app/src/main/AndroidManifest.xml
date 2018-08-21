@@ -16,10 +16,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Timer" />
-        <activity android:name=".Summary" />
-        <activity android:name=".AddProgram" />
-        <activity android:name=".AddExercise"/>
+        <activity
+            android:name=".Timer"
+            android:parentActivityName=".AddExercise"/>
+        <activity android:name=".Summary"
+            android:parentActivityName=".MainActivity"/>
+        <activity android:name=".AddProgram"
+            android:parentActivityName=".MainActivity"/>
+        <activity android:name=".AddExercise"
+            android:parentActivityName=".AddProgram"/>
     </application>
 
 </manifest>
