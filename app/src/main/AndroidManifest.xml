@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.anexus.list">
 
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -18,13 +20,26 @@
         </activity>
         <activity
             android:name=".Timer"
-            android:parentActivityName=".AddExercise"/>
-        <activity android:name=".Summary"
-            android:parentActivityName=".MainActivity"/>
-        <activity android:name=".AddProgram"
-            android:parentActivityName=".MainActivity"/>
-        <activity android:name=".AddExercise"
-            android:parentActivityName=".AddProgram"/>
+            android:parentActivityName=".AddExercise" />
+        <activity
+            android:name=".Summary"
+            android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".AddProgram"
+            android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".AddExercise"
+            android:parentActivityName=".AddProgram" />
+        <activity
+            android:name=".SettingsActivity"
+            android:label="@string/title_activity_settings"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.anexus.list.MainActivity" />
+        </activity>
+        <activity android:name=".Music"></activity>
     </application>
+    
 
 </manifest>

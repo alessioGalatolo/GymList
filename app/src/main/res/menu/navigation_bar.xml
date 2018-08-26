@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/navigationViewProgram"
+        android:title="@string/programs"
+        android:icon="@drawable/baseline_list_white_18dp"/>
+    <item android:id="@+id/navigationViewMusic"
+        android:title="@string/music"
+        android:icon="@drawable/baseline_music_note_white_18dp"/>
+    <item android:id="@+id/navigationViewStart"
+        android:title="@string/quick_start"
+        android:icon="@drawable/baseline_play_arrow_white_18dp"/>
+
+</menu>
