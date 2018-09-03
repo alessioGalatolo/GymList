@@ -2,6 +2,7 @@ package com.anexus.list
 
 
 import android.Manifest
+import android.content.ContentResolver
 import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Bundle
@@ -9,9 +10,12 @@ import android.support.v4.app.ActivityCompat
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AlertDialog
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.anexus.list.adapters.SongAdapter
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -25,6 +29,8 @@ private const val ARG_PARAM2 = "param2"
  */
 class MusicFragment : Fragment() {
 
+    val songsList: ArrayList<Song> = ArrayList()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         requestPermission(this.requireContext())
@@ -34,24 +40,27 @@ class MusicFragment : Fragment() {
 //        rounded.isCircular = true
 //        songImageFront.setImageDrawable(rounded)
 
-//        myQuickSort(songs, 0, songs.size - 1, "title")
+        myQuickSort(songsList, 0, songsList.size - 1, "title")
 //        adapter = SongsAdapter(this, songs) {
 //            song ->
 //            songTitleFront.text = song.title
 //            songArtistFront.text = song.artist
 //        }
-//
-//        //setting the adapter of recylcerView and the song click
-//        songsListView.adapter = adapter                             //assigning the adapter
-//        val layoutManager =  LinearLayoutManager(this)       //layout manager
-//        songsListView.layoutManager = layoutManager
-//        songsListView.setHasFixedSize(true)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_music, container, false)
+        val view = inflater.inflate(R.layout.fragment_music, container, false)
+        val mAdapter = SongAdapter(songsList)
+        view.findViewById<RecyclerView>(R.id.songsListView).apply {
+            adapter = mAdapter
+            layoutManager = LinearLayoutManager(context)
+            setHasFixedSize(true)
+        }
+
+
+        return view
     }
 
 
@@ -74,33 +83,31 @@ private fun requestPermission(context: Context){
         val dialog = builder.create()
         dialog.show()
     }else
-//            retrieveMusic()
-        true
+            retrieveMusic()
+
 
 }
 
-//    private fun retrieveMusic(): ArrayList<Song>{
-//        val a1: ArrayList<Song> = ArrayList()
-//        val contentResolver: ContentResolver = contentResolver
-//        val uri= android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
-//        val cursor = contentResolver.query(uri, null, null, null, null);
-//        if (cursor == null) {
-//            // query failed, handle error.
-//        } else if (!cursor.moveToFirst()) {
-//            // no media on the device
-//
-//        } else {
-//            val titleColumn: Int = cursor.getColumnIndex(android.provider.MediaStore.Audio.Media.TITLE)
-//            val idColumn: Int = cursor.getColumnIndex(android.provider.MediaStore.Audio.Media._ID)
-//            do {
-//                val thisId = cursor.getLong(idColumn);
-//                val thisTitle = cursor.getString(titleColumn);
-//                a1.add(Song(thisTitle, "", null, 0, thisId))
-//                // ...process entry...
-//            } while (cursor.moveToNext())
-//        }
-//        return a1
-//    }
+    private fun retrieveMusic(){
+        val mContentResolver: ContentResolver? = context?.contentResolver
+        val uri= android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
+        val cursor = mContentResolver?.query(uri, null, null, null, null);
+        if (cursor == null) {
+            // query failed, handle error.
+        } else if (!cursor.moveToFirst()) {
+            // no media on the device
+
+        } else {
+            val titleColumn: Int = cursor.getColumnIndex(android.provider.MediaStore.Audio.Media.TITLE)
+            val idColumn: Int = cursor.getColumnIndex(android.provider.MediaStore.Audio.Media._ID)
+            do {
+                val thisId = cursor.getLong(idColumn);
+                val thisTitle = cursor.getString(titleColumn);
+                songsList.add(Song(thisTitle, "", null, 0, thisId))
+                // ...process entry...
+            } while (cursor.moveToNext())
+        }
+    }
 
 private fun inverti(a: ArrayList<Song>, i: Int, j: Int): Int{
     val tmp = a[i + 1]
@@ -110,7 +117,7 @@ private fun inverti(a: ArrayList<Song>, i: Int, j: Int): Int{
 }
 
 private fun distribution(a: ArrayList<Song>, sx: Int, dx: Int, orderBy: String): Int {
-    val px = dx
+    val px= dx
     var i: Int = sx - 1
 //        var j: Int = sx
     for (j in sx..dx){

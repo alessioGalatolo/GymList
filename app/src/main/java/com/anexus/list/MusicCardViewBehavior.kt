@@ -28,6 +28,6 @@ class MusicCardViewBehavior<V : View>(context: Context, attrs: AttributeSet) :
                                    consumed: IntArray,
                                    type: Int) {
         super.onNestedPreScroll(coordinatorLayout, child, target, dx, dy, consumed, type)
-        child.translationY = max(100f , min(child.height.toFloat(), child.translationY + dy)) - 100f
+        child.translationY = max(1000f , min(child.height.toFloat(), child.translationY + dy)) - 1000f
     }
 }

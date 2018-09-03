@@ -35,7 +35,6 @@
         android:visibility="visible"
         app:cardCornerRadius="@dimen/cardview_default_radius"
         app:cardElevation="@dimen/cardview_default_elevation"
-        app:layout_behavior="com.anexus.list.MusicCardViewBehavior"
         app:layout_dodgeInsetEdges="bottom">
 
         <de.hdodenhof.circleimageview.CircleImageView
