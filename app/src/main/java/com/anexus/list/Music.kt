@@ -17,7 +17,7 @@ class Music : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_music)
+//        setContentView(R.layout.activity_music)
 
         requestPermission(this)
 
