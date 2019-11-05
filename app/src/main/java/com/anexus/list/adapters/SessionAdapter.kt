@@ -1,7 +1,7 @@
 package com.anexus.list.adapters
 
-import android.support.v4.widget.TextViewCompat
-import android.support.v7.widget.RecyclerView
+import androidx.core.widget.TextViewCompat
+import androidx.recyclerview.widget.RecyclerView
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -9,18 +9,18 @@ import android.view.ViewGroup
 import com.anexus.list.R
 import kotlinx.android.synthetic.main.session_list_item.view.*
 import java.util.*
-import android.support.design.widget.CoordinatorLayout.Behavior.setTag
+import androidx.coordinatorlayout.widget.CoordinatorLayout.Behavior.setTag
+import com.anexus.list.Session
 
 
-
-class SessionListAdapter(val sessionList: List<String>, val startAddEx: (View) -> Unit): RecyclerView.Adapter<SessionListAdapter.Holder>() {
+class SessionListAdapter(private val sessions: List<Session>, private val startAddEx: (View) -> Unit): RecyclerView.Adapter<SessionListAdapter.Holder>() {
     override fun onCreateViewHolder(parent: ViewGroup, id: Int): Holder {
         return Holder(LayoutInflater.from(parent.context)
                 .inflate(R.layout.session_list_item, parent, false))
     }
 
     override fun getItemCount(): Int {
-        return sessionList.count()
+        return sessions.count()
     }
 
     override fun onBindViewHolder(holder: Holder, pos: Int) {
@@ -47,11 +47,9 @@ class SessionListAdapter(val sessionList: List<String>, val startAddEx: (View) -
             }
         }
         name.setOnClickListener(startAddEx)
-        name.text = sessionList[pos]
+        name.text = sessions[pos].name
 
     }
 
-    inner class Holder(itemView: View): RecyclerView.ViewHolder(itemView){
-
-    }
+    inner class Holder(itemView: View): RecyclerView.ViewHolder(itemView)
 }

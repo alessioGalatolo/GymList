@@ -1,11 +1,12 @@
 package com.anexus.list
 
 
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
-import android.support.v4.app.Fragment
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -26,7 +27,7 @@ private const val ARG_PARAM2 = "param2"
  */
 class GymFragment : Fragment() {
 
-    var mainView: View? = null
+    private var mainView: View? = null
     private lateinit var mDbWorkerThread: DbWorkerThread
     private val mUiHandler = Handler()
     private var mDatabase: ProgramDatabase? = null
@@ -41,9 +42,16 @@ class GymFragment : Fragment() {
         mDatabase = ProgramDatabase.getInstance(this.requireContext())
 
         val programData: ArrayList<Program> = ArrayList()
-////        programData.addAll(mDatabase.programDao().getAll())
         fetchWeatherDataFromDb(programData)
-        ladapter = ProgramAdapter(programData)
+        Data.programs.addAll(programData)
+
+        ladapter = ProgramAdapter(programData){
+            val intent = Intent(context, SessionManager::class.java)
+            intent.putExtra(PROGRAM_NAME_EXTRA , it.name)
+
+            Data.currentProgram = it
+            startActivity(intent)
+        }
 
     }
 
@@ -74,6 +82,8 @@ class GymFragment : Fragment() {
                 if (programData2 == null || programData2.isEmpty()) {
                     Toast.makeText(this.requireContext(), "No data in cache..!!", Toast.LENGTH_SHORT).show()
                 }else{
+
+                    Toast.makeText(this.requireContext(), programData2[0].sessions[0].name , Toast.LENGTH_SHORT).show()
                     programData.addAll(programData2)
                     ladapter.notifyDataSetChanged()
                 }

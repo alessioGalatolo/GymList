@@ -1,15 +1,15 @@
 package com.anexus.list.adapters
 
-import android.support.v4.widget.TextViewCompat
-import android.support.v7.widget.RecyclerView
+import androidx.core.widget.TextViewCompat
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.anexus.list.Ex
+import com.anexus.list.Exercise
 import com.anexus.list.R
 import kotlinx.android.synthetic.main.ex_list_item.view.*
 
-class ListAdapter(private val itemList: ArrayList<Ex>): RecyclerView.Adapter<ListAdapter.itemVH>() {
+class ListAdapter(private val itemList: ArrayList<Exercise>): RecyclerView.Adapter<ListAdapter.itemVH>() {
     override fun onCreateViewHolder(p0: ViewGroup, p1: Int): itemVH {
 
         return itemVH(LayoutInflater.from(p0.context).inflate(R.layout.ex_list_item, p0, false))
@@ -36,7 +36,7 @@ class ListAdapter(private val itemList: ArrayList<Ex>): RecyclerView.Adapter<Lis
             rest.text = "${restEx / 60}:${restEx % 60}"
     }
 
-    inner class itemVH(itemView: View?) : RecyclerView.ViewHolder(itemView)
+    inner class itemVH(itemView: View) : RecyclerView.ViewHolder(itemView)
 
 
 }

@@ -1,16 +1,16 @@
 package com.anexus.list
 
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
-import android.support.v4.app.ActivityCompat
-import android.support.v4.content.ContextCompat
-import android.support.v7.app.AlertDialog
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import androidx.appcompat.app.AlertDialog
 import android.content.ContentResolver
 import android.content.Intent
-import android.support.design.widget.BottomNavigationView
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 
 class Music : AppCompatActivity() {
@@ -62,7 +62,7 @@ class Music : AppCompatActivity() {
 //         2. Chain together various setter methods to set the dialog characteristics
             builder.setMessage(R.string.dialog_message)
                     .setTitle(R.string.dialog_title_storage)
-            builder.setPositiveButton(R.string.ok) { dialog, id ->
+            builder.setPositiveButton(R.string.ok) { _, _ ->
                 ActivityCompat.requestPermissions(this,
                         arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
                         0)
@@ -111,7 +111,6 @@ class Music : AppCompatActivity() {
         private fun distribution(a: ArrayList<Song>, sx: Int, dx: Int, orderBy: String): Int {
             val px = dx
             var i: Int = sx - 1
-            var j: Int = sx
             for (j in sx..dx){
                 when(orderBy){
                     "title" -> if(a[j].title < a[px].title) i = inverti(a, i, j)

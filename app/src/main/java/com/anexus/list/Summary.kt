@@ -1,7 +1,7 @@
 package com.anexus.list
 
 import android.content.Intent
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 
@@ -11,12 +11,12 @@ class Summary : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_summary)
         val intent = intent
-        val exNeg = createAL(intent.extras.get(NEGATIVE_EX_EXTRA).toString())
+        val exNeg = createAL(intent.extras!!.get(NEGATIVE_EX_EXTRA).toString())
         Log.i("idk", exNeg.toString())
     }
 
-    private fun createAL(dataString: String): ArrayList<Ex> {
-        val tmp: ArrayList<Ex> = ArrayList()
+    private fun createAL(dataString: String): ArrayList<Exercise> {
+        val tmp: ArrayList<Exercise> = ArrayList()
         var i = 0
         while (i < dataString.length - 1) {
             if ((dataString[i]) == '=') {
@@ -31,7 +31,7 @@ class Summary : AppCompatActivity() {
                 i = x + 7
                 x = dataString.indexOf(')', i)
                 val rest = dataString.substring(i, x)
-                tmp.add(Ex(name, sets.toInt(), reps.toInt(), rest.toInt()))
+                tmp.add(Exercise(name, sets.toInt(), reps.toInt(), rest.toInt()))
 
             }
             i++

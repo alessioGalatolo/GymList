@@ -1,15 +1,20 @@
 package com.anexus.list.roomDatabase
 
-import android.arch.persistence.room.Dao
-import android.arch.persistence.room.Insert
-import android.arch.persistence.room.OnConflictStrategy.REPLACE
-import android.arch.persistence.room.Query
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy.REPLACE
+import androidx.room.Query
 import com.anexus.list.Program
+import com.anexus.list.Session
 
 @Dao
 interface ProgramDao {
+
     @Query("SELECT * from Program")
     fun getAll(): List<Program>
+
+    @Query("UPDATE Program SET sessions = :sessions WHERE id = :id")
+    fun updateSessions(sessions: ArrayList<Session>, id: Int): Int
 
     @Insert(onConflict = REPLACE)
     fun insert(program: Program)

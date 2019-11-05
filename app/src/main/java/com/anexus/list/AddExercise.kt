@@ -1,12 +1,12 @@
 package com.anexus.list
 
 import android.content.Intent
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.support.v4.app.DialogFragment
-import android.support.v7.app.AlertDialog
-import android.support.v7.widget.DividerItemDecoration
-import android.support.v7.widget.LinearLayoutManager
+import androidx.fragment.app.DialogFragment
+import androidx.appcompat.app.AlertDialog
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.View
@@ -25,13 +25,14 @@ class AddExercise : AppCompatActivity() {
         setContentView(R.layout.activity_add_exercise)
 
         //initialize toolbar
-        setSupportActionBar(addExTB)
+        //setSupportActionBar(addExTB)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.title = intent.extras.getString(PROGRAM_NAME_EXTRA)
+        supportActionBar?.title = intent.extras?.getString(PROGRAM_NAME_EXTRA)
 
         //initialize the list
+        Data.currentSession!!.exercises.add(Exercise("name", 123,123,123))
         val layoutManager = LinearLayoutManager(this)
-        listAdapter = ListAdapter(Data.exList)
+        listAdapter = ListAdapter(Data.currentSession!!.exercises)
         ex_rec_list.adapter = listAdapter
         ex_rec_list.layoutManager = layoutManager
         ex_rec_list.setHasFixedSize(true)
@@ -43,7 +44,7 @@ class AddExercise : AppCompatActivity() {
 
         //button to start Timer activity
         start_btn.setOnClickListener {
-            if(Data.exList.isEmpty())
+            if(Data.currentSession!!.exercises.isEmpty())
                 Toast.makeText(this,
                         "Please enter at least one exercise before starting the timer",
                         Toast.LENGTH_LONG).show()
@@ -108,14 +109,14 @@ class AddExercise : AppCompatActivity() {
                 showDialog()
             } else{
                 val s = viewInflated.restInput.text.toString()
-                Data.exList.add(Ex(viewInflated.nameInput.text.toString(),
+                Data.currentSession!!.exercises.add(Exercise(viewInflated.nameInput.text.toString(),
                         viewInflated.set_spinner.selectedItem.toString().toInt(),
                         viewInflated.rep_spinner.selectedItem.toString().toInt(),
                         s.toInt()))
                 Toast.makeText(this,
                         getString(R.string.dialog_valid_choice),
                         Toast.LENGTH_SHORT).show()
-                listAdapter.notifyItemInserted(Data.exList.size - 1)
+                listAdapter.notifyDataSetChanged() /*Data.currentSession!!.exercises.size - 1*/
 
             }
         }

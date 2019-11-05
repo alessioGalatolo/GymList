@@ -1,7 +1,7 @@
 package com.anexus.list
 
 import android.content.Intent
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.os.SystemClock
@@ -14,7 +14,7 @@ import kotlin.concurrent.timer
 
 class Timer : AppCompatActivity() {
 
-    val exBis: ArrayList<Ex> = ArrayList()
+    val exBis: ArrayList<Exercise> = ArrayList()
 
     var count = 0
 

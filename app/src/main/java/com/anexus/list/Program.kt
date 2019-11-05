@@ -1,11 +1,9 @@
 package com.anexus.list
 
-import android.arch.persistence.room.Entity
-import android.arch.persistence.room.PrimaryKey
-import android.arch.persistence.room.ColumnInfo
-
-
+import androidx.room.*
 
 @Entity
-data class Program(@PrimaryKey(autoGenerate = true) var id: Int?,
-                   @ColumnInfo val name: String)
+data class Program(@PrimaryKey(autoGenerate = true) var id: Int? = 0,
+                   @ColumnInfo var name: String = "Untitled Program",
+                   @ColumnInfo var sessions: ArrayList<Session> = ArrayList())
+

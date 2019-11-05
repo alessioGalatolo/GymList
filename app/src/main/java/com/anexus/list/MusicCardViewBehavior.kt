@@ -1,12 +1,12 @@
 package com.anexus.list
 
-import android.support.v4.view.ViewCompat.animate
+import androidx.core.view.ViewCompat.animate
 import android.R.attr.translationY
 import android.content.Context
-import android.support.design.widget.BottomNavigationView
-import android.support.v4.view.ViewCompat
-import android.support.annotation.NonNull
-import android.support.design.widget.CoordinatorLayout
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import androidx.core.view.ViewCompat
+import androidx.annotation.NonNull
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import android.util.AttributeSet
 import android.view.View
 import kotlin.math.max
