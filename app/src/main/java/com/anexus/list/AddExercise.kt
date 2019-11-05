@@ -30,17 +30,17 @@ class AddExercise : AppCompatActivity() {
         supportActionBar?.title = intent.extras?.getString(PROGRAM_NAME_EXTRA)
 
         //initialize the list
-        Data.currentSession!!.exercises.add(Exercise("name", 123,123,123))
+//        Data.currentSession!!.exercises.add(Exercise("name", 123,123,123))
         val layoutManager = LinearLayoutManager(this)
         listAdapter = ListAdapter(Data.currentSession!!.exercises)
         ex_rec_list.adapter = listAdapter
         ex_rec_list.layoutManager = layoutManager
         ex_rec_list.setHasFixedSize(true)
 
-        //line between items
-//        val dividerItemDecoration = DividerItemDecoration(ex_rec_list.context,
-//                layoutManager.orientation)
-//        ex_rec_list.addItemDecoration(dividerItemDecoration)
+//        line between items
+        val dividerItemDecoration = DividerItemDecoration(ex_rec_list.context,
+                layoutManager.orientation)
+        ex_rec_list.addItemDecoration(dividerItemDecoration)
 
         //button to start Timer activity
         start_btn.setOnClickListener {

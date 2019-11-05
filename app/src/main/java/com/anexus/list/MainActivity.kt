@@ -15,37 +15,26 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.inputmethod.InputMethodManager
-import android.widget.Toast
-import com.anexus.list.roomDatabase.DbWorkerThread
 import com.anexus.list.roomDatabase.ProgramDatabase
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.program_name_dialog.view.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 
 class MainActivity : AppCompatActivity() {
-
-    private lateinit var mDbWorkerThread: DbWorkerThread
-    private var mDatabase: ProgramDatabase? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        //get the database
+        Data.programDb = ProgramDatabase.getInstance(this)!!.programDao()
+
         setFragment(R.id.navigationViewProgram)
 
-        mDbWorkerThread = DbWorkerThread("dbWorkerThread")
-        mDbWorkerThread.start()
-        mDatabase = ProgramDatabase.getInstance(this)
 
-//        val mDatabase =
-//                 Room.databaseBuilder(this, ProgramDatabase::class.java, "nome")
-//                         .allowMainThreadQueries()
-//                         .build()
-////        this is very bad, TODO(use asynchronous thread)
-
-
-
-
+        //OLD (for exercises written to file
         //checks for data written
 //        if(File(filesDir.toString() + "/" + EX_DATA_FILENAME).exists()) {
 //            val inputStream = openFileInput(EX_DATA_FILENAME)
@@ -63,34 +52,43 @@ class MainActivity : AppCompatActivity() {
 
 
         addProgramFab.setOnClickListener {
-
+            //if addProgram button is pressed -> open dialog to insert name then start a new activity
             val nameDialog = AlertDialog.Builder(this)
             val view = layoutInflater.inflate(R.layout.program_name_dialog, null)
             nameDialog.setView(view)
 
-            view.programNameEt.requestFocus()
-            view.programNameEt.selectAll()
+            //used to force keyboard to show
             val imm = this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY)
 
             nameDialog.setPositiveButton(R.string.ok){ _: DialogInterface, _: Int ->
+                //remove keyboard
                 imm.toggleSoftInputFromWindow(view.windowToken, 0,0)
-                val intent = Intent(this, SessionManager::class.java)
-                intent.putExtra(PROGRAM_NAME_EXTRA ,view.programNameEt.text.toString())
 
+                //collect the new program
                 val newProgram = Program(null, view.programNameEt.text.toString(), ArrayList())
                 Data.currentProgram = newProgram
 
                 insertDataInDb(newProgram)
 //                mDatabase.programDao().insert(Program( view.programNameEt.text.toString()))
+
+                //start new Activity
+                val intent = Intent(this, SessionManager::class.java)
+                intent.putExtra(PROGRAM_NAME_EXTRA ,view.programNameEt.text.toString())
                 startActivity(intent)
             }
+
+            //cancel action
             nameDialog.setNegativeButton(R.string.cancel){ dialogInterface: DialogInterface, _: Int ->
                 imm.toggleSoftInputFromWindow(view.windowToken, 0,0)
                 dialogInterface.cancel()
             }
 
             nameDialog.show()
+
+            //Highlight the default text
+            view.programNameEt.requestFocus()
+            view.programNameEt.selectAll()
+            imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY)
         }
 
         bottomNavigationView.setOnNavigationItemSelectedListener{
@@ -107,14 +105,6 @@ class MainActivity : AppCompatActivity() {
             }
             return@setOnNavigationItemSelectedListener true
         }
-
-
-
-//        if(storagePermissionGranted()){
-//            //TODO("go on")
-//        }
-
-
 
 
     }
@@ -213,8 +203,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun insertDataInDb(program: Program) {
-        val task = Runnable { mDatabase?.programDao()?.insert(program) }
-        mDbWorkerThread.postTask(task)
+        //OLD
+//        val task = Runnable { mDatabase?.programDao()?.insert(program) }
+//        mDbWorkerThread.postTask(task)
+
+        GlobalScope.launch { Data.programDb.insert(program) }
     }
 
 //    private fun copyDataLL(dataString: String?) {
@@ -247,8 +240,7 @@ class MainActivity : AppCompatActivity() {
 
 
     override fun onDestroy() {
-        ProgramDatabase.destroyInstance()
-        mDbWorkerThread.quit()
+//        mDbWorkerThread.quit()
         this.openFileOutput(EX_DATA_FILENAME, Context.MODE_PRIVATE).use {
             it.write(Data.exercises.toString().toByteArray())
         }

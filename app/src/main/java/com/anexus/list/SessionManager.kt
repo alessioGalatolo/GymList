@@ -15,12 +15,13 @@ import com.anexus.list.roomDatabase.DatabaseManager
 import kotlinx.android.synthetic.main.activity_session_manager.*
 import kotlinx.android.synthetic.main.program_name_dialog.view.*
 import kotlinx.android.synthetic.main.session_list_item.view.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 
 class SessionManager : AppCompatActivity() {
 
     private lateinit var adapter1: SessionListAdapter
-    private val databaseManager = DatabaseManager(this)
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,7 +36,8 @@ class SessionManager : AppCompatActivity() {
 
 
 
-        adapter1 = SessionListAdapter(Data.currentProgram!!.sessions) {
+        adapter1 = SessionListAdapter(Data.currentProgram!!.sessions) {it, session ->
+            Data.currentSession = session
             val intent = Intent(this, AddExercise::class.java)
             intent.putExtra(SESSION_NAME_EXTRA, it.sessionName.text.toString())
             startActivity(intent)
@@ -70,6 +72,14 @@ class SessionManager : AppCompatActivity() {
                     val newSession = Session(view.programNameEt.text.toString(), null, ArrayList())
                     Data.currentProgram!!.sessions.add(newSession)
                     Data.currentSession = newSession
+
+                    GlobalScope.launch {
+                        if(Data.currentProgram == null)
+                            println("help")
+                        else
+                            println("not help")
+                        Data.programDb.updateSessions(Data.currentProgram!!.sessions, Data.currentProgram!!.id!!)
+                    }
 
                     adapter1.notifyDataSetChanged()
                 }

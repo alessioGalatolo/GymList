@@ -35,10 +35,6 @@ class MusicFragment : Fragment() {
         super.onCreate(savedInstanceState)
         requestPermission(this.requireContext())
 
-//        val bitmap = BitmapFactory.decodeResource(resources, R.drawable.generic_cover )  //creating bitmap to make image round
-//        val rounded = RoundedBitmapDrawableFactory.create(resources, bitmap)
-//        rounded.isCircular = true
-//        songImageFront.setImageDrawable(rounded)
 
         myQuickSort(songsList, 0, songsList.size - 1, "title")
 //        adapter = SongsAdapter(this, songs) {
@@ -89,7 +85,9 @@ private fun requestPermission(context: Context){
 //    }else
 
     if(ContextCompat.checkSelfPermission(this.requireContext(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
-//        Snackbar.make(mainActivityCoordinatorLayout, "This section requires storage access", Snackbar.LENGTH_SHORT).show()
+        Snackbar.make(mainActivityCoordinatorLayout, "This section requires storage access", Snackbar.LENGTH_SHORT)
+                .setAnchorView(addProgramFab)
+                .show()
 
     retrieveMusic()
 

@@ -13,7 +13,7 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout.Behavior.setTag
 import com.anexus.list.Session
 
 
-class SessionListAdapter(private val sessions: List<Session>, private val startAddEx: (View) -> Unit): RecyclerView.Adapter<SessionListAdapter.Holder>() {
+class SessionListAdapter(private val sessions: List<Session>, private val startAddEx: (View, Session) -> Unit): RecyclerView.Adapter<SessionListAdapter.Holder>() {
     override fun onCreateViewHolder(parent: ViewGroup, id: Int): Holder {
         return Holder(LayoutInflater.from(parent.context)
                 .inflate(R.layout.session_list_item, parent, false))
@@ -46,7 +46,10 @@ class SessionListAdapter(private val sessions: List<Session>, private val startA
                 }
             }
         }
-        name.setOnClickListener(startAddEx)
+        name.setOnClickListener{
+            startAddEx(it, sessions[pos])
+
+        }
         name.text = sessions[pos].name
 
     }

@@ -2,21 +2,27 @@ package com.anexus.list.roomDatabase
 
 import android.content.Context
 import com.anexus.list.Program
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+
 class DatabaseManager(context: Context) {
 
-    companion object{
-        private lateinit var programDatabase: ProgramDatabase
-    }
-
-    init {
-        programDatabase = ProgramDatabase.getInstance(context)!!
-    }
-
+    private val programDatabase: ProgramDatabase = ProgramDatabase.getInstance(context)!!
 
 
     fun insertProgram(program: Program){
-        Runnable{
+        GlobalScope.launch{
             programDatabase.programDao().insert(program)
-        }.run()
+        }
+    }
+
+    fun getPrograms(callbackFun: (ArrayList<Program>) -> Unit){
+        GlobalScope.launch{
+            callbackFun(programDatabase.programDao().getAll() as ArrayList<Program>)
+        }
+    }
+
+    fun blockingGetPrograms(): List<Program> {
+        return programDatabase.programDao().getAll()
     }
 }
