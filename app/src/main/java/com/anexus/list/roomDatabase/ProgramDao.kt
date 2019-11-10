@@ -14,7 +14,7 @@ interface ProgramDao {
     fun getAll(): List<Program>
 
     @Query("UPDATE Program SET sessions = :sessions WHERE id = :id")
-    fun updateSessions(sessions: ArrayList<Session>, id: Int): Int
+    fun updateProgram(sessions: ArrayList<Session>, id: Int): Int
 
     @Insert(onConflict = REPLACE)
     fun insert(program: Program)

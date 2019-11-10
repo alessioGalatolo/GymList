@@ -34,7 +34,7 @@ class MainActivity : AppCompatActivity() {
         setFragment(R.id.navigationViewProgram)
 
 
-        //OLD (for exercises written to file
+        //OLD (for exercises written to file)
         //checks for data written
 //        if(File(filesDir.toString() + "/" + EX_DATA_FILENAME).exists()) {
 //            val inputStream = openFileInput(EX_DATA_FILENAME)

@@ -30,11 +30,16 @@ class SessionManager : AppCompatActivity() {
         setSupportActionBar(findViewById(R.id.mainActTB))
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
+
         //gets program name
-        //TODO(Should be looking for existing programs)
-        supportActionBar?.title = intent.extras?.getString(PROGRAM_NAME_EXTRA)
+        //TODO(Should be looking for existing programs with the same name)
+        var currentProgramName = intent.extras?.getString(PROGRAM_NAME_EXTRA)
+        if(intent.extras?.getString(PROGRAM_NAME_EXTRA) == null){
+            currentProgramName = Data.currentProgram!!.name
+        }
+        supportActionBar?.title = currentProgramName
 
-
+        println(Data.currentProgram!!.sessions[0].exercises)
 
         adapter1 = SessionListAdapter(Data.currentProgram!!.sessions) {it, session ->
             Data.currentSession = session
@@ -78,7 +83,7 @@ class SessionManager : AppCompatActivity() {
                             println("help")
                         else
                             println("not help")
-                        Data.programDb.updateSessions(Data.currentProgram!!.sessions, Data.currentProgram!!.id!!)
+                        Data.programDb.updateProgram(Data.currentProgram!!.sessions, Data.currentProgram!!.id!!)
                     }
 
                     adapter1.notifyDataSetChanged()

@@ -35,7 +35,7 @@ class GymFragment : Fragment() {
 
         ladapter = ProgramAdapter(programData){
             val intent = Intent(context, SessionManager::class.java)
-            intent.putExtra(PROGRAM_NAME_EXTRA , it.name)
+            intent.putExtra(PROGRAM_NAME_EXTRA, it.name)
 
             Data.currentProgram = it
             startActivity(intent)
@@ -65,9 +65,9 @@ class GymFragment : Fragment() {
                 programData.addAll(newDataPrograms)
                 Data.programs.addAll(programData)
 
-                ladapter.notifyDataSetChanged()
+
             }else{
-                            //TODO("add some suggestion messages")
+                //TODO("add some suggestion messages")
             }
         }
     }

@@ -15,6 +15,9 @@ import android.widget.Toast
 import com.anexus.list.adapters.ListAdapter
 import kotlinx.android.synthetic.main.activity_add_exercise.*
 import kotlinx.android.synthetic.main.add_ex_dialog.view.*
+import kotlinx.android.synthetic.main.app_toolbar.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class AddExercise : AppCompatActivity() {
 
@@ -25,9 +28,9 @@ class AddExercise : AppCompatActivity() {
         setContentView(R.layout.activity_add_exercise)
 
         //initialize toolbar
-        //setSupportActionBar(addExTB)
+        setSupportActionBar(mainActTB)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.title = intent.extras?.getString(PROGRAM_NAME_EXTRA)
+        supportActionBar?.title = intent.extras?.getString(SESSION_NAME_EXTRA)
 
         //initialize the list
 //        Data.currentSession!!.exercises.add(Exercise("name", 123,123,123))
@@ -105,7 +108,7 @@ class AddExercise : AppCompatActivity() {
 
             if(viewInflated.nameInput.text.toString().isEmpty() || viewInflated.restInput.text.toString().isEmpty()) {
 //                Snackbar.make(findViewById(R.id.coordinator),"boh", Snackbar.LENGTH_LONG).show()
-//                Toast.makeText(this, getString(R.string.dialog_invalid_choice), Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.dialog_invalid_choice), Toast.LENGTH_SHORT).show()
                 showDialog()
             } else{
                 val s = viewInflated.restInput.text.toString()
@@ -113,11 +116,11 @@ class AddExercise : AppCompatActivity() {
                         viewInflated.set_spinner.selectedItem.toString().toInt(),
                         viewInflated.rep_spinner.selectedItem.toString().toInt(),
                         s.toInt()))
-                Toast.makeText(this,
-                        getString(R.string.dialog_valid_choice),
-                        Toast.LENGTH_SHORT).show()
                 listAdapter.notifyDataSetChanged() /*Data.currentSession!!.exercises.size - 1*/
 
+                GlobalScope.launch {
+                    Data.programDb.updateProgram(Data.currentProgram!!.sessions, Data.currentProgram!!.id!!)
+                }
             }
         }
         builder.setNegativeButton(R.string.cancel) { dialog, _ ->
