@@ -12,5 +12,5 @@ object Data {
     var currentSession: Session? = null
     val sessionList = listOf("Upper Body", "Lower Body", "Full Body")
     lateinit var programDb: ProgramDao
-
+    const val CHANNEL_ID = "1000"
 }

@@ -84,10 +84,11 @@ private fun requestPermission(context: Context){
 //        //requestPermission(context)
 //    }else
 
-    if(ContextCompat.checkSelfPermission(this.requireContext(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
-        Snackbar.make(mainActivityCoordinatorLayout, "This section requires storage access", Snackbar.LENGTH_SHORT)
-                .setAnchorView(addProgramFab)
-                .show()
+
+//    if(ContextCompat.checkSelfPermission(this.requireContext(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
+//        Snackbar.make(mainActivityCoordinatorLayout, "This section requires storage access", Snackbar.LENGTH_SHORT)
+//                .setAnchorView(addProgramFab)
+//                .show()
 
     retrieveMusic()
 

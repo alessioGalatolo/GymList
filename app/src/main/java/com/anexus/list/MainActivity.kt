@@ -1,10 +1,13 @@
 package com.anexus.list
 
 import android.Manifest
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.google.android.material.snackbar.Snackbar
@@ -15,6 +18,10 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
+import androidx.media.MediaBrowserServiceCompat
+import com.anexus.list.Data.CHANNEL_ID
 import com.anexus.list.roomDatabase.ProgramDatabase
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.program_name_dialog.view.*
@@ -93,12 +100,16 @@ class MainActivity : AppCompatActivity() {
 
         bottomNavigationView.setOnNavigationItemSelectedListener{
             if(it.itemId == R.id.navigationViewMusic){
-//                if(storagePermissionGranted()){
-//                    return@setOnNavigationItemSelectedListener setFragment(it.itemId)
-//                }else{
-                val snackbar = Snackbar.make(mainActivityCoordinatorLayout, "This section requires storage access", Snackbar.LENGTH_SHORT)
-                snackbar.anchorView = addProgramFab
-                snackbar.show()
+                if(storagePermissionGranted()){
+////                }else{
+//                if(ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
+//                != PackageManager.PERMISSION_GRANTED) {
+                    val snackbar = Snackbar.make(mainActivityCoordinatorLayout, "This section requires storage access", Snackbar.LENGTH_SHORT)
+                    snackbar.anchorView = addProgramFab
+                    snackbar.show()
+                }
+                return@setOnNavigationItemSelectedListener setFragment(it.itemId)
+
 //                    Toast.makeText(this, "textttt", Toast.LENGTH_LONG).show()
 //                    return@setOnNavigationItemSelectedListener true
 //                }
@@ -106,10 +117,28 @@ class MainActivity : AppCompatActivity() {
             return@setOnNavigationItemSelectedListener true
         }
 
+        createNotificationChannel()
 
     }
 
-    private fun storagePermissionGranted(): Boolean {
+    private fun createNotificationChannel() {
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val name = getString(R.string.channel_name)
+            val descriptionText = getString(R.string.channel_description)
+            val importance = NotificationManager.IMPORTANCE_DEFAULT
+            val channel = NotificationChannel(CHANNEL_ID, name, importance).apply {
+                description = descriptionText
+            }
+            // Register the channel with the system
+            val notificationManager: NotificationManager =
+                    getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager.createNotificationChannel(channel)
+        }
+    }
+
+        private fun storagePermissionGranted(): Boolean {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
 
